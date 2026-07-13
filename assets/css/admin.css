@@ -1,0 +1,705 @@
+/*
+ * MBR HTML Generator — admin styles
+ * All rules are scoped to .mbr-html-gen-app to avoid clashing with WP admin chrome.
+ */
+
+/* Reclaim full width inside .wrap (WP admin adds padding/margins) */
+.mbr-html-gen-wrap {
+	margin: 0 -20px 0 -20px;
+	padding: 0;
+	max-width: none;
+}
+
+#wpcontent .mbr-html-gen-wrap {
+	padding-left: 0;
+}
+
+.mbr-html-gen-app {
+	--mbr-bg: #f5f3ee;
+	--mbr-panel: #ffffff;
+	--mbr-ink: #1a1d1c;
+	--mbr-ink-soft: #4a4f4d;
+	--mbr-ink-faint: #8a8f8d;
+	--mbr-rule: #e4e1d8;
+	--mbr-accent: #0a6b65;
+	--mbr-accent-soft: #e6f0ef;
+	--mbr-code-bg: #1a1d1c;
+	--mbr-code-ink: #e8e6df;
+	--mbr-tag: #7dd3c0;
+	--mbr-attr: #f6c177;
+	--mbr-val: #c4a7e7;
+	--mbr-punct: #6e6a83;
+	--mbr-comment: #6c7676;
+	--mbr-line-num: #5a5e66;
+	--mbr-line-num-border: #2d2f37;
+	--mbr-link: #2563eb;
+	--mbr-radius: 6px;
+
+	display: flex;
+	flex-direction: column;
+	height: calc(100vh - 32px); /* leave WP admin bar */
+	background: var(--mbr-bg);
+	color: var(--mbr-ink);
+	font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	font-size: 14px;
+	-webkit-font-smoothing: antialiased;
+	box-sizing: border-box;
+	overflow: hidden;
+}
+
+@media screen and (max-width: 782px) {
+	.mbr-html-gen-app {
+		height: calc(100vh - 46px);
+	}
+}
+
+.mbr-html-gen-app[data-theme="dark"] {
+	--mbr-bg: #15171b;
+	--mbr-panel: #1c1f24;
+	--mbr-ink: #e8e6df;
+	--mbr-ink-soft: #b8b5ad;
+	--mbr-ink-faint: #707470;
+	--mbr-rule: #2a2e36;
+	--mbr-accent: #7dd3c0;
+	--mbr-accent-soft: rgba(125, 211, 192, 0.12);
+	--mbr-code-bg: #0f1115;
+	--mbr-code-ink: #e8e6df;
+	--mbr-line-num: #4d5258;
+	--mbr-line-num-border: #232730;
+	--mbr-link: #60a5fa;
+}
+
+.mbr-html-gen-app *,
+.mbr-html-gen-app *::before,
+.mbr-html-gen-app *::after {
+	box-sizing: border-box;
+}
+
+/* Header */
+.mbr-html-gen-header {
+	display: flex;
+	align-items: baseline;
+	justify-content: space-between;
+	padding: 16px 24px 14px;
+	border-bottom: 1px solid var(--mbr-rule);
+	background: var(--mbr-panel);
+	flex-shrink: 0;
+}
+
+.mbr-html-gen-brand {
+	display: flex;
+	align-items: baseline;
+	gap: 14px;
+}
+
+.mbr-html-gen-app .mbr-html-gen-brand h1 {
+	font-family: 'Fraunces', Georgia, serif;
+	font-weight: 500;
+	font-style: italic;
+	font-size: 22px;
+	margin: 0;
+	padding: 0;
+	color: var(--mbr-ink);
+	letter-spacing: -0.01em;
+	line-height: 1.2;
+}
+
+.mbr-html-gen-sub {
+	font-size: 11px;
+	color: var(--mbr-ink-faint);
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	font-weight: 500;
+}
+
+.mbr-html-gen-header-tools {
+	display: flex;
+	gap: 8px;
+	align-items: center;
+}
+
+/* Main split */
+.mbr-html-gen-main {
+	flex: 1;
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	gap: 0;
+	overflow: hidden;
+	min-height: 0;
+}
+
+.mbr-html-gen-panel {
+	display: flex;
+	flex-direction: column;
+	background: var(--mbr-panel);
+	min-height: 0;
+	min-width: 0;
+}
+
+.mbr-html-gen-panel + .mbr-html-gen-panel {
+	border-left: 1px solid var(--mbr-rule);
+}
+
+.mbr-html-gen-panel-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 9px 16px;
+	border-bottom: 1px solid var(--mbr-rule);
+	background: var(--mbr-panel);
+	min-height: 42px;
+	flex-shrink: 0;
+}
+
+.mbr-html-gen-panel-label {
+	font-size: 11px;
+	letter-spacing: 0.08em;
+	text-transform: uppercase;
+	color: var(--mbr-ink-faint);
+	font-weight: 500;
+}
+
+.mbr-html-gen-panel-actions {
+	display: flex;
+	gap: 6px;
+}
+
+.mbr-html-gen-panel-body {
+	flex: 1;
+	overflow: hidden;
+	min-height: 0;
+	position: relative;
+}
+
+.mbr-html-gen-editor-host {
+	height: 100%;
+	overflow: hidden;
+}
+
+.mbr-html-gen-editor-host .tox-tinymce {
+	border: none !important;
+	height: 100% !important;
+	border-radius: 0 !important;
+}
+
+/* Output */
+.mbr-html-gen-output {
+	margin: 0;
+	height: 100%;
+	overflow: auto;
+	background: var(--mbr-code-bg);
+	color: var(--mbr-code-ink);
+	font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+	font-size: 13px;
+	line-height: 1.65;
+	padding: 18px 22px 18px 0;
+	tab-size: 2;
+	counter-reset: mbr-line;
+}
+
+.mbr-html-gen-output.mbr-html-gen-wrap-on {
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.mbr-html-gen-output:not(.mbr-html-gen-wrap-on) {
+	white-space: pre;
+}
+
+.mbr-html-gen-output .mbr-tag    { color: var(--mbr-tag); }
+.mbr-html-gen-output .mbr-attr   { color: var(--mbr-attr); }
+.mbr-html-gen-output .mbr-val    { color: var(--mbr-val); }
+.mbr-html-gen-output .mbr-punct  { color: var(--mbr-punct); }
+.mbr-html-gen-output .mbr-comment { color: var(--mbr-comment); font-style: italic; }
+
+/* Line numbers
+ *
+ * Each source line is wrapped in <span class="mbr-line"> by render() in
+ * admin.js. A CSS counter increments on every line and the value is
+ * rendered as a ::before pseudo-element in a left-side gutter.
+ *
+ * user-select: none on ::before keeps line numbers out of the clipboard
+ * when the user manually selects text. The Copy button in the panel
+ * header copies the source via navigator.clipboard.writeText, which
+ * never touches the rendered DOM, so it's unaffected either way.
+ *
+ * In wrap mode, long lines wrap visually but the gutter shows a single
+ * number per logical line — same convention as VS Code, GitHub, etc.
+ */
+.mbr-html-gen-output .mbr-line {
+	display: block;
+	counter-increment: mbr-line;
+	position: relative;
+	padding-left: 4.5em;
+	min-height: 1.65em;
+}
+
+.mbr-html-gen-output .mbr-line::before {
+	content: counter(mbr-line);
+	position: absolute;
+	left: 0;
+	top: 0;
+	bottom: 0;
+	width: 3.5em;
+	padding-right: 0.7em;
+	text-align: right;
+	color: var(--mbr-line-num);
+	border-right: 1px solid var(--mbr-line-num-border);
+	-webkit-user-select: none;
+	user-select: none;
+	pointer-events: none;
+}
+
+/* Empty placeholder state — no line numbers, plain left padding */
+.mbr-html-gen-output .mbr-html-gen-empty {
+	display: block;
+	padding-left: 22px;
+}
+
+.mbr-html-gen-empty {
+	color: var(--mbr-ink-faint);
+	font-style: italic;
+}
+
+/* Buttons (namespaced to avoid WP .button conflicts) */
+.mbr-html-gen-app .mbr-btn {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+	font-family: inherit;
+	font-size: 12px;
+	font-weight: 500;
+	color: var(--mbr-ink);
+	background: transparent;
+	border: 1px solid var(--mbr-rule);
+	padding: 5px 11px;
+	border-radius: var(--mbr-radius);
+	cursor: pointer;
+	transition: all 120ms ease;
+	letter-spacing: 0.01em;
+	line-height: 1.4;
+	height: auto;
+	min-height: 0;
+	text-decoration: none;
+	box-shadow: none;
+}
+
+.mbr-html-gen-app .mbr-icon {
+	width: 14px;
+	height: 14px;
+	flex-shrink: 0;
+	display: inline-block;
+	vertical-align: middle;
+}
+
+/* Dark/light icon and label swap, driven entirely by [data-theme] */
+.mbr-html-gen-app .mbr-icon-sun,
+.mbr-html-gen-app .mbr-label-light {
+	display: none;
+}
+
+.mbr-html-gen-app[data-theme="dark"] .mbr-icon-moon,
+.mbr-html-gen-app[data-theme="dark"] .mbr-label-dark {
+	display: none;
+}
+
+.mbr-html-gen-app[data-theme="dark"] .mbr-icon-sun {
+	display: inline-block;
+}
+
+.mbr-html-gen-app[data-theme="dark"] .mbr-label-light {
+	display: inline;
+}
+
+.mbr-html-gen-app .mbr-btn:focus,
+.mbr-html-gen-app .mbr-btn:focus-visible {
+	outline: 2px solid var(--mbr-accent);
+	outline-offset: 1px;
+	box-shadow: none;
+}
+
+.mbr-html-gen-app .mbr-btn:active {
+	transform: translateY(1px);
+}
+
+.mbr-html-gen-app .mbr-btn-primary {
+	color: var(--mbr-accent);
+	border-color: var(--mbr-accent);
+	background: var(--mbr-accent-soft);
+}
+
+.mbr-html-gen-app .mbr-btn-primary:hover {
+	background: var(--mbr-accent);
+	color: var(--mbr-panel);
+	border-color: var(--mbr-accent);
+}
+
+.mbr-html-gen-app .mbr-btn[aria-pressed="true"] {
+	background: var(--mbr-accent-soft);
+	color: var(--mbr-accent);
+	border-color: var(--mbr-accent);
+}
+
+/* Explicit "off / not-toggled-on" state. Covers three groups in one rule:
+ *   - toggle buttons in their off state (aria-pressed="false"): Tidy off,
+ *     Format off, Wrap off
+ *   - non-toggle buttons that have no aria-pressed attribute at all:
+ *     Clear, Download, the Light/Dark mode header toggle
+ * Without this rule, the second group falls through to the default .mbr-btn
+ * declaration at specificity (0,2,0), which loses to theme leakage in some
+ * rendering contexts (Elementor Canvas, certain Astra builds). The
+ * :not([aria-pressed="true"]) selector lifts it to (0,3,0) — symmetric
+ * with the on-state rule above. */
+.mbr-html-gen-app .mbr-btn:not([aria-pressed="true"]) {
+	background: transparent;
+	color: var(--mbr-ink);
+	border-color: var(--mbr-rule);
+}
+
+.mbr-html-gen-app .mbr-btn:not([aria-pressed="true"]):hover {
+	border-color: var(--mbr-ink-faint);
+}
+
+/* Toast */
+.mbr-html-gen-toast {
+	position: absolute;
+	top: 14px;
+	right: 18px;
+	background: var(--mbr-ink);
+	color: var(--mbr-bg);
+	font-size: 12px;
+	padding: 6px 12px;
+	border-radius: var(--mbr-radius);
+	opacity: 0;
+	pointer-events: none;
+	transform: translateY(-4px);
+	transition: opacity 180ms ease, transform 180ms ease;
+	z-index: 10;
+}
+
+.mbr-html-gen-toast.mbr-show {
+	opacity: 1;
+	transform: translateY(0);
+}
+
+/* Footer */
+.mbr-html-gen-footer {
+	border-top: 1px solid var(--mbr-rule);
+	padding: 8px 24px;
+	background: var(--mbr-panel);
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 11px;
+	color: var(--mbr-ink-faint);
+	letter-spacing: 0.02em;
+	flex-shrink: 0;
+}
+
+.mbr-html-gen-stats span {
+	font-family: 'JetBrains Mono', ui-monospace, monospace;
+	color: var(--mbr-ink-soft);
+	margin: 0 4px;
+}
+
+/* Credit (centre column of footer)
+ *
+ * Sits between the TinyMCE attribution (left) and stats (right). The
+ * footer uses justify-content: space-between, which distributes three
+ * children naturally as left/centre/right. */
+.mbr-html-gen-credit {
+	flex: 1;
+	text-align: center;
+	padding: 0 12px;
+}
+
+/* Link colour selectors include :visited and use a high-specificity
+ * footer-scoped path — `a` elements in post content are heavily styled by
+ * themes (Astra, Elementor) and frequently inherit unexpected colours
+ * (white/transparent in some header configs). The 4-class selector beats
+ * typical theme rules without resorting to !important. */
+.mbr-html-gen-app .mbr-html-gen-footer .mbr-html-gen-credit a,
+.mbr-html-gen-app .mbr-html-gen-footer .mbr-html-gen-credit a:visited {
+	color: var(--mbr-link);
+	text-decoration: none;
+	transition: opacity 120ms ease;
+}
+
+.mbr-html-gen-app .mbr-html-gen-footer .mbr-html-gen-credit a:hover,
+.mbr-html-gen-app .mbr-html-gen-footer .mbr-html-gen-credit a:focus {
+	color: var(--mbr-link);
+	text-decoration: underline;
+}
+
+/* Force emoji rendering for the heart — some serif/monospace ancestor
+ * stacks turn the heart into a thin black glyph; this stack picks the
+ * platform's emoji font reliably. font-style: normal protects against
+ * italicised parents. */
+.mbr-html-gen-heart {
+	font-family: 'Apple Color Emoji', 'Segoe UI Emoji', 'Noto Color Emoji', 'EmojiOne Color', 'Twemoji Mozilla', sans-serif;
+	font-style: normal;
+}
+
+/* Responsive: stack on narrow screens */
+@media (max-width: 860px) {
+	.mbr-html-gen-main {
+		grid-template-columns: 1fr;
+		grid-template-rows: 1fr 1fr;
+	}
+	.mbr-html-gen-panel + .mbr-html-gen-panel {
+		border-left: none;
+		border-top: 1px solid var(--mbr-rule);
+	}
+}
+
+/* =====================================================================
+ * Skeleton loading state
+ *
+ * Shown over the editor host while TinyMCE downloads and initialises.
+ * Sits absolutely-positioned within the panel body and is removed by
+ * the editor's `init` event (admin.js → hideSkeleton).
+ *
+ * The actual <textarea#mbr-html-gen-editor> sits beneath this layer.
+ * Hiding the skeleton reveals the TinyMCE chrome that replaced the
+ * textarea once it initialised.
+ * ===================================================================== */
+
+.mbr-html-gen-skeleton {
+	position: absolute;
+	inset: 0;
+	background: var(--mbr-panel);
+	display: flex;
+	flex-direction: column;
+	z-index: 5;
+	pointer-events: none;
+	transition: opacity 200ms ease;
+}
+
+.mbr-html-gen-skeleton.mbr-is-hidden {
+	opacity: 0;
+	visibility: hidden;
+}
+
+.mbr-html-gen-skeleton-toolbar {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 12px 14px;
+	border-bottom: 1px solid var(--mbr-rule);
+	background: var(--mbr-panel);
+}
+
+.mbr-html-gen-skeleton-pill {
+	display: inline-block;
+	height: 14px;
+	width: 60px;
+	background: var(--mbr-rule);
+	border-radius: 3px;
+	animation: mbr-html-gen-shimmer 1.4s ease-in-out infinite;
+}
+
+.mbr-html-gen-skeleton-pill-sm {
+	width: 28px;
+}
+
+.mbr-html-gen-skeleton-pill-md {
+	width: 90px;
+	margin-left: auto;
+}
+
+.mbr-html-gen-skeleton-body {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.mbr-html-gen-skeleton-spinner {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 14px;
+	color: var(--mbr-ink-faint);
+	font-size: 12px;
+	letter-spacing: 0.04em;
+}
+
+.mbr-html-gen-skeleton-spinner-ring {
+	width: 28px;
+	height: 28px;
+	border: 2px solid var(--mbr-rule);
+	border-top-color: var(--mbr-accent);
+	border-radius: 50%;
+	animation: mbr-html-gen-spin 0.9s linear infinite;
+	display: block;
+}
+
+.mbr-html-gen-skeleton-spinner-label {
+	font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+}
+
+@keyframes mbr-html-gen-spin {
+	to {
+		transform: rotate(360deg);
+	}
+}
+
+@keyframes mbr-html-gen-shimmer {
+	0%, 100% {
+		opacity: 0.6;
+	}
+	50% {
+		opacity: 1;
+	}
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce) {
+	.mbr-html-gen-skeleton-spinner-ring,
+	.mbr-html-gen-skeleton-pill {
+		animation: none;
+	}
+}
+
+/* CSS drawer
+ * ---------------------------------------------------------------------
+ * Sits inside the editor panel body, below the editor host. The body
+ * becomes a flex-column container so the editor host shrinks to make
+ * room when the drawer is shown. The skeleton overlay is position:
+ * absolute so it's unaffected by the flex layout.
+ */
+.mbr-html-gen-editor-panel .mbr-html-gen-panel-body {
+	display: flex;
+	flex-direction: column;
+}
+
+.mbr-html-gen-editor-panel .mbr-html-gen-editor-host {
+	flex: 1 1 auto;
+	min-height: 0;
+}
+
+.mbr-html-gen-css-drawer {
+	flex: 0 0 auto;
+	display: flex;
+	flex-direction: column;
+	height: 240px;
+	max-height: 50%;
+	border-top: 1px solid var(--mbr-rule);
+	background: var(--mbr-panel);
+}
+
+.mbr-html-gen-css-drawer[hidden] {
+	display: none;
+}
+
+.mbr-html-gen-css-drawer-header {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px;
+	padding: 8px 12px 8px 14px;
+	border-bottom: 1px solid var(--mbr-rule);
+	background: var(--mbr-panel);
+	font-size: 12px;
+	color: var(--mbr-ink-soft);
+	flex-shrink: 0;
+}
+
+.mbr-html-gen-css-drawer-label {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	font-weight: 500;
+	color: var(--mbr-ink);
+}
+
+.mbr-html-gen-css-drawer-label .mbr-icon {
+	width: 14px;
+	height: 14px;
+	color: var(--mbr-ink-soft);
+}
+
+.mbr-html-gen-css-drawer-stats {
+	color: var(--mbr-ink-faint);
+	font-weight: 400;
+	margin-left: 4px;
+}
+
+.mbr-html-gen-css-drawer-stats span {
+	color: var(--mbr-ink-soft);
+	font-variant-numeric: tabular-nums;
+}
+
+.mbr-html-gen-css-drawer-actions {
+	display: inline-flex;
+	gap: 4px;
+}
+
+/* Quieter variant of .mbr-btn for use inside the drawer header — same
+ * shape and behaviour, just a lighter visual weight so it doesn't
+ * compete with the panel-header buttons sitting directly above. */
+.mbr-html-gen-app .mbr-btn-quiet {
+	padding: 4px 8px;
+	font-size: 12px;
+	background: transparent;
+	border-color: transparent;
+	color: var(--mbr-ink-soft);
+}
+
+.mbr-html-gen-app .mbr-btn-quiet:hover {
+	background: var(--mbr-accent-soft);
+	color: var(--mbr-ink);
+}
+
+.mbr-html-gen-app .mbr-btn-quiet .mbr-icon {
+	width: 13px;
+	height: 13px;
+}
+
+.mbr-html-gen-css-textarea {
+	flex: 1 1 auto;
+	width: 100%;
+	min-height: 0;
+	padding: 12px 14px;
+	border: none;
+	outline: none;
+	resize: none;
+	background: var(--mbr-code-bg);
+	color: var(--mbr-code-ink);
+	font-family: 'JetBrains Mono', ui-monospace, 'Cascadia Code', Menlo, Consolas, monospace;
+	font-size: 13px;
+	line-height: 1.65;
+	tab-size: 4;
+	box-sizing: border-box;
+}
+
+.mbr-html-gen-css-textarea:focus {
+	box-shadow: inset 0 0 0 2px var(--mbr-accent);
+}
+
+.mbr-html-gen-css-textarea::placeholder {
+	color: var(--mbr-ink-faint);
+	opacity: 0.7;
+}
+
+/* Colour swatches in the output panel
+ * ---------------------------------------------------------------------
+ * Display-only decoration applied by addColorSwatches() in admin.js to
+ * every CSS colour value in the rendered output. A small inline-block
+ * coloured square sits before the text via ::before, using a CSS
+ * custom property set on the span. Theme-aware border uses the
+ * existing --mbr-rule variable so white and very-pale swatches stay
+ * visible against the panel background in both light and dark modes.
+ */
+.mbr-swatch::before {
+	content: '';
+	display: inline-block;
+	width: 10px;
+	height: 10px;
+	margin-right: 4px;
+	border-radius: 2px;
+	background: var(--mbr-swatch);
+	border: 1px solid var(--mbr-rule);
+	vertical-align: -1px;
+	box-sizing: border-box;
+}

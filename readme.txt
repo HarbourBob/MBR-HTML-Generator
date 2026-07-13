@@ -1,14 +1,18 @@
 === MBR HTML Generator ===
-Contributors: harbourbob
+Plugin URI: https://littlewebshack.com/online-html-generator/
+Author: Robert Palmer
+Author URI: https://madebyrobert.co.uk/
 Tags: html, editor, dev tools, tinymce, code generator
 Requires at least: 5.8
 Tested up to: 6.7
 Requires PHP: 7.4
-Stable tag: 1.7.2
+Stable tag: 1.8.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
-A two-panel HTML generator for WordPress. Compose visually in TinyMCE, watch the formatted HTML appear in real time alongside it.
+A two-panel HTML generator for WordPress. Compose visually in TinyMCE, watch the semantic formatted HTML appear in real time alongside it.
+
+A 30-page, comprehensive User Guide (PDF) is included in the plugin Zip file.
 
 == Description ==
 
@@ -80,6 +84,10 @@ While you type, the editor content is saved to your browser's localStorage rough
 The bundled TinyMCE only loads on the plugin's own admin page (Tools → HTML Generator). It does not affect Classic Editor, Gutenberg, or any other TinyMCE-driven UI elsewhere in WordPress.
 
 == Changelog ==
+
+= 1.8.0 =
+* New: Self-hosted update checking wired in via Plugin Update Checker 5.7 (bundled under `includes/plugin-update-checker/`). The update manifest is served from the public HarbourBob/mbr-updates GitHub repo via a raw file URL, so update checks bypass host-side caching entirely. Updates now surface on the standard WordPress Plugins/Updates screens like any other plugin.
+* Changed: The footer credit link ("Created with ❤ by Robert Palmer") now points to https://madebyrobert.co.uk instead of littlewebshack.com. Still opens in a new tab.
 
 = 1.7.2 =
 * New: Inline colour swatches in the output panel. Every CSS colour value the output displays — `#fff`, `#ffffff`, `#ffffff80`, `rgb()`, `rgba()`, `hsl()`, `hsla()` — gets a small 10×10px coloured square rendered just before it, so colours are readable at a glance instead of having to mentally translate hex codes. Particularly useful when Classify generates rule sets like `.c-e03e2d { color: #e03e2d; }` and you want to see what `#e03e2d` actually looks like.
@@ -201,6 +209,9 @@ The bundled TinyMCE only loads on the plugin's own admin page (Tools → HTML Ge
 * Initial release.
 
 == Upgrade Notice ==
+
+= 1.8.0 =
+Wires in self-hosted update checking (PUC 5.7, GitHub-hosted manifest), so this is the last version you'll need to install manually — future updates arrive through the WordPress Updates screen. Also repoints the footer credit link to madebyrobert.co.uk.
 
 = 1.7.2 =
 Adds inline colour swatches to the output panel — every hex, rgb, rgba, hsl or hsla value gets a small coloured square next to it so you can see the colour without translating the hex in your head. Display-only; the copied/downloaded output is unchanged. No new toggles.

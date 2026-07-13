@@ -1,0 +1,160 @@
+/*
+ * MBR HTML Generator — frontend stylesheet
+ *
+ * Loaded only on frontend pages that contain the [mbr_html_generator] shortcode.
+ * Provides:
+ *   1. @font-face declarations for the bundled font files (Geist, Fraunces,
+ *      JetBrains Mono). Files live in /assets/fonts/ — see the README in that
+ *      directory for the source URLs and filenames expected.
+ *   2. Outer .mbr-html-gen-frontend wrapper styles (height, border, margin)
+ *      so the tool fits sensibly inside post content.
+ *   3. Scoped resets that defend against theme styles leaking into the app
+ *      (button, heading, paragraph, list, code, link, form elements).
+ *
+ * All rules sit at higher specificity than admin.css so they override where
+ * needed without using !important.
+ */
+
+/* =====================================================================
+ * 1. Bundled @font-face declarations
+ *
+ * font-display: swap means the system fallback in the CSS stack is used
+ * until the woff2 has downloaded — no FOIT (flash of invisible text).
+ * If the woff2 files are missing the system stack continues to be used.
+ * ===================================================================== */
+
+@font-face {
+	font-family: 'Geist';
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+	src: url('../fonts/geist-400.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Geist';
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+	src: url('../fonts/geist-500.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Geist';
+	font-weight: 600;
+	font-style: normal;
+	font-display: swap;
+	src: url('../fonts/geist-600.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'Fraunces';
+	font-weight: 500;
+	font-style: italic;
+	font-display: swap;
+	src: url('../fonts/fraunces-500-italic.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-weight: 400;
+	font-style: normal;
+	font-display: swap;
+	src: url('../fonts/jetbrains-mono-400.woff2') format('woff2');
+}
+
+@font-face {
+	font-family: 'JetBrains Mono';
+	font-weight: 500;
+	font-style: normal;
+	font-display: swap;
+	src: url('../fonts/jetbrains-mono-500.woff2') format('woff2');
+}
+
+/* =====================================================================
+ * 2. Outer wrapper — sits inside the post content
+ * ===================================================================== */
+
+.mbr-html-gen-frontend {
+	margin: 1.5em 0;
+	padding: 0;
+	font-family: 'Geist', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+	font-size: 14px;
+	line-height: 1.5;
+	color: #1a1d1c;
+	-webkit-font-smoothing: antialiased;
+}
+
+/* Override admin's full-viewport height — frontend is a contained widget */
+.mbr-html-gen-frontend .mbr-html-gen-app {
+	height: 870px;
+	max-height: 80vh;
+	border: 1px solid #e4e1d8;
+	border-radius: 8px;
+	overflow: hidden;
+}
+
+.mbr-html-gen-frontend .mbr-html-gen-app[data-theme="dark"] {
+	border-color: #2a2e36;
+}
+
+/* Replace the 1px divider line between editor and output with a 20px gap.
+   The .mbr-html-gen-app background shows through, giving the panels a
+   distinct card-like separation. Applies in both side-by-side and stacked
+   (mobile) layouts because grid `gap` works in both directions. */
+.mbr-html-gen-frontend .mbr-html-gen-main {
+	gap: 20px;
+}
+
+.mbr-html-gen-frontend .mbr-html-gen-panel + .mbr-html-gen-panel {
+	border-left: 0;
+	border-top: 0;
+}
+
+@media (max-width: 860px) {
+	.mbr-html-gen-frontend .mbr-html-gen-app {
+		height: 770px;
+	}
+}
+
+@media (max-width: 600px) {
+	.mbr-html-gen-frontend .mbr-html-gen-app {
+		height: 710px;
+		border-radius: 0;
+		border-left: 0;
+		border-right: 0;
+	}
+}
+
+/* =====================================================================
+ * 3. Minimal sanity reset
+ *
+ * Earlier versions had broad element-level resets (button, span, p,
+ * h1-h3, pre, code, a, svg, input, textarea, select) intended to defend
+ * the app against theme styles leaking in. In practice they did more
+ * harm than good — fighting our own admin.css rules and breaking line
+ * numbers, button padding, and output panel padding on the frontend.
+ *
+ * They've been removed. Theme defence now relies on admin.css's own
+ * selector specificity:
+ *
+ *   - .mbr-html-gen-app .mbr-btn         (0,2,0) — beats theme button rules
+ *   - .mbr-html-gen-app .mbr-html-gen-brand h1 (0,3,1) — beats theme h1 rules
+ *   - .mbr-html-gen-output .mbr-tag       (0,2,0) — beats theme code rules
+ *   - .mbr-html-gen-app .mbr-html-gen-stats span (0,3,1)
+ *
+ * These already win against typical post-content theme rules at (0,1,1)
+ * or below, so the explicit reset was overkill. If a particularly
+ * aggressive theme breaks the look, we can add a targeted defence then
+ * rather than fighting every element pre-emptively.
+ *
+ * Box-sizing stays as a universal modern default — applies inside
+ * TinyMCE chrome too without breaking anything.
+ * ===================================================================== */
+
+.mbr-html-gen-frontend .mbr-html-gen-app,
+.mbr-html-gen-frontend .mbr-html-gen-app *,
+.mbr-html-gen-frontend .mbr-html-gen-app *::before,
+.mbr-html-gen-frontend .mbr-html-gen-app *::after {
+	box-sizing: border-box;
+}

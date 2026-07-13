@@ -1,245 +1,207 @@
-<div align="center">
-
-<img src="https://littlewebshack.com/wp-content/uploads/2025/12/Logo-5-icon.png" width="80" alt="MBR logo">
-
 # MBR HTML Generator
 
-### Write HTML visually. Ship clean source.
+A two-panel HTML generator for WordPress. Compose visually in TinyMCE on the left; watch the formatted, syntax-highlighted HTML appear in real time on the right.
 
-A free, two-panel HTML composer for WordPress.
-Lives in `Tools → HTML Generator` — or runs on your front end via a single shortcode.
+Available as an admin Tools page **and** as a `[mbr_html_generator]` shortcode for embedding on any frontend page or post.
 
-[![License](https://img.shields.io/badge/License-GPLv2-a3e635?style=flat-square)](LICENSE)
-[![Version](https://img.shields.io/badge/Version-1.7.2-3b82f6?style=flat-square)](https://littlewebshack.com/mbr-html-generator/)
-[![WordPress](https://img.shields.io/badge/WordPress-5.0%2B-21759b?style=flat-square)](https://wordpress.org/)
-[![Telemetry](https://img.shields.io/badge/Telemetry-Zero-65a30d?style=flat-square)]()
-[![Premium tier](https://img.shields.io/badge/Premium%20tier-None-f59e0b?style=flat-square)]()
+Bundled with TinyMCE 8.5.0 (GPL community edition) — no CDN, no API key, no upsells.
 
-**[⬇ Download v1.7.2](https://littlewebshack.com/downloads/html-generator/mbr-html-generator-v1.7.2.zip)** · **[🌐 Plugin Page](https://littlewebshack.com/mbr-html-generator/)** · **[🐛 Report Issue](https://github.com/HarbourBob/MBR-HTML-Generator/issues)** · **[☕ Buy Me a Coffee](https://buymeacoffee.com/robertpalmer)**
+## Features
 
-<br>
-
-<img src="https://littlewebshack.com/wp-content/uploads/2026/05/HTML-Generator-3-scaled.png" alt="MBR HTML Generator — two-panel workspace with TinyMCE on the left and live HTML output on the right" width="900">
-
-</div>
-
-<br>
-
----
-
-## ✨ What it is
-
-MBR HTML Generator is a small, focused tool for composing HTML in a friendly visual editor and getting clean, copy-paste-ready markup out the other side.
-
-The typical workflow:
-
-1. Type, format and style your content in TinyMCE on the left
-2. Watch the formatted HTML appear in the panel on the right
-3. Copy or download the result when you're happy
-
-Everything runs in your browser. **No server round-trip. No telemetry. Nothing ever leaves your machine.**
-
-<br>
-
-## 🛠 The three passes
-
-Three optional toggles shape what comes out. They're independent — use any combination.
-
-### 🧹 Tidy — semantic cleanup
-Cleans up TinyMCE's raw output: unwraps standalone images from paragraphs, removes redundant spans wrapping headings, drops empty paragraphs, merges non-conflicting inline styles onto block elements. Never changes the rendered output, only the structure.
-
-### 🎨 Classify — inline styles to utility classes
-Extracts every `style` attribute into reusable atomic CSS classes — one class per property/value pair. Identical declarations share the same class. If you've used Tailwind, the output will feel immediately familiar.
-
-```html
-<!-- Before -->
-<h1 style="color: #e03e2c; font-size: 36px;">Welcome</h1>
-<p style="color: #e03e2c;">Same red as the heading.</p>
-
-<!-- After -->
-<style>
-  .c-e03e2c { color: #e03e2c; }
-  .fs-36    { font-size: 36px; }
-</style>
-<h1 class="c-e03e2c fs-36">Welcome</h1>
-<p class="c-e03e2c">Same red as the heading.</p>
-```
-
-Three elements, two rules — and a third red element later adds nothing new.
-
-### 💅 Custom CSS drawer
-Write your own CSS rules in a monospace textarea below the editor. The editor previews them live (within ~150ms of you stopping typing), and the same CSS is included verbatim at the top of the output. Tag selectors, attribute selectors, class selectors, pseudo-classes, media queries, CSS variables — all work.
-
-### 🪄 The rest of it
-
-- Light/dark theme toggle
-- Auto-save to `localStorage` with silent restore — survives refreshes and tab closures
-- Multi-tab sync via storage events
-- Copy to clipboard with toast confirmation
-- Download as a dated `.html` file
-- Pretty-print (js-beautify) and line-wrap toggles
+- Two-panel split: TinyMCE editor on the left, live HTML output on the right
+- Available as an admin tool **and** as a `[mbr_html_generator]` frontend shortcode
+- **Tidy toggle** that cleans up TinyMCE's HTML output for more semantic markup — see below
+- **Classify toggle** that extracts inline `style` attributes into reusable CSS utility classes — see below
+- **Custom CSS panel** for writing your own CSS — applied live in the editor and included in the output — see below
+- Skeleton loading state inside the editor panel while TinyMCE downloads, so the page feels responsive immediately
+- Self-hosted bundled fonts on the frontend (Geist, Fraunces, JetBrains Mono) — no Google Fonts dependency
+- Pretty-printed, syntax-highlighted source view that updates as you type or format
+- Production-grade formatting via bundled js-beautify
+- Auto-save to `localStorage` with silent restore (debounced, no server round-trip)
+- Multi-tab sync — edits in one tab mirror to others
+- Copy-to-clipboard with toast confirmation
+- Download as `.html` file (respects the Format toggle)
+- Format toggle (raw vs. pretty-printed) and line-wrap toggle
+- Light and dark mode, with the TinyMCE skin matching the chrome
 - Live character, word and line counts
+- Locally-bundled TinyMCE 8.5.0 and js-beautify — no external CDN dependency, no licence prompts
+- UK English throughout, fully translatable
+- No tracking, no upsells, no premium tier
 
-<br>
+## Requirements
 
-## 🚀 The bit that makes it different
+- WordPress 5.8 or later
+- PHP 7.4 or later
 
-Most WordPress plugins live in the admin and stay there. This one doesn't have to.
+## Installation
 
-**Drop one shortcode on any page or post:**
+1. Upload the `mbr-html-generator` folder to `/wp-content/plugins/`, or install the ZIP through **Plugins → Add New → Upload Plugin**.
+2. Activate the plugin from the Plugins screen.
+3. To use it in the admin, open **Tools → HTML Generator**.
+4. To use it on the frontend, add `[mbr_html_generator]` to any page or post.
+
+## Shortcode
 
 ```
 [mbr_html_generator]
 ```
 
-…and the same two-panel composer renders inline for **everyone who visits**. Logged in or out, doesn't matter. Same toolbar, same CSS drawer, same toggles. Everything still runs client-side — nothing leaves the visitor's browser.
+The shortcode renders the same two-panel tool inside the post content. Frontend assets (TinyMCE, js-beautify, stylesheets, fonts) are only enqueued on pages where the shortcode is detected — pages without it stay completely unaffected.
 
-### Where that's useful
+**Single-instance:** Only one `[mbr_html_generator]` per page is supported. A second copy on the same page renders a notice (visible to logged-in editors only) instead of broken duplicate markup.
 
-| Use case | Why it fits |
-|---|---|
-| 🎓 **Computer Science education** | A gentle on-ramp from HTML to CSS classes to Custom CSS for first-year students. The 30-page user guide is a structured companion. No installs, no dev environment, no accounts. |
-| 📖 **Documentation pages** | Pair a "try it yourself" embed beside the explanatory text. |
-| 🌍 **Public utilities** | Host a free tool on your site as a friendly first touchpoint with visitors. |
-| 👥 **Internal team tools** | A compose-style-copy workspace on any members page your team can reach. |
+**Loading behaviour:** TinyMCE is loaded in the document footer on the frontend so the page paints before the editor's ~5MB script downloads. While that's happening, a skeleton placeholder with a spinner sits inside the editor panel. The skeleton fades out the moment TinyMCE's `init` event fires.
 
-<br>
+**Audience:** The shortcode is intentionally not capability-gated. Its intended audience is anonymous visitors — web developers, designers, and students who want a quick HTML utility without signing in.
 
-## 📦 Installation
+## Tidy
 
-Since this plugin is distributed outside the WordPress.org repository, install it manually:
+The output panel includes a **Tidy** toggle (on by default) that cleans up TinyMCE's HTML output for more semantic, copy-paste-ready markup. The cleanup runs entirely in the browser via `DOMParser` — no server round-trip — and falls back to the original HTML on any parsing error.
 
-1. Download the latest `.zip` from [littlewebshack.com](https://littlewebshack.com/downloads/html-generator/mbr-html-generator-v1.7.2.zip) or grab it from the [Releases](https://github.com/HarbourBob/MBR-HTML-Generator/releases) tab
-2. In WordPress: **Plugins → Add New → Upload Plugin**
-3. Choose the `.zip`, click **Install Now**, then **Activate**
-4. The tool now lives at **Tools → HTML Generator**
+When Tidy is on, these transformations are applied:
 
-To enable it on the front end, add `[mbr_html_generator]` to any page or post.
+| Input | Output | When |
+|-------|--------|------|
+| `<p><img src="..."></p>`, `<p><iframe …></iframe></p>`, `<p><video …></video></p>`, `<p><audio …></audio></p>` | bare embed | `<p>` contains only the embed and has no attributes of its own. `<p style="text-align:center"><img></p>` is preserved (user wants the embed centered). Same rule applies to all four media types. |
+| `<h1><span style="color:red">Text</span></h1>` | `<h1 style="color:red">Text</h1>` | Span wraps all of a heading's or paragraph's content. Style and class move up to the block element. Style merging is property-aware: if the block already has a `style` attribute, non-overlapping CSS properties from the span are merged in. Skipped only when there's a genuine property conflict (e.g. both sides defining `color`), to avoid losing data. |
+| `<p style="text-align:left"><span style="color:#333">Text</span></p>` | `<p style="text-align:left; color:#333">Text</p>` | Same rule applied to paragraphs — non-conflicting styles merge onto the block. |
+| `<p></p>`, `<p>&nbsp;</p>`, `<p><br></p>` | (removed) | Paragraph contains no meaningful content. |
+| `<span><span>x</span></span>` | `<span>x</span>` | Nested attribute-less spans collapse to one. |
+| `<p style=""></p>` | `<p></p>` | Empty `style` attribute stripped. |
 
-### Requirements
+Toggle Tidy off in the output panel header to see TinyMCE's exact output. The Copy and Download buttons always match what's currently displayed in the output panel — so what you see is what you copy.
 
-- WordPress 5.0 or newer
-- PHP 7.4 or newer
-- Any modern browser (recent Chrome, Firefox, Safari or Edge)
+The toggle state is persisted to `localStorage` (key `mbrHtmlGen.tidy`), per-browser, and applies to both the admin tool and the frontend shortcode independently.
 
-<br>
+## Classify
 
-## 🎯 Quick start
+The output panel also includes a **Classify** toggle (off by default) that extracts inline `style` attributes into reusable, atomic CSS utility classes. Each unique CSS property/value declaration becomes one class; repeated declarations across elements share the same class. The generated rules are emitted as a single `<style>` block at the top of the output, so what you see is a self-contained, copy-pasteable artefact.
 
-### The simple path — just generate clean HTML
+This turns the kind of output TinyMCE produces:
 
-1. Open **Tools → HTML Generator**
-2. Type in the editor on the left, use the toolbar for headings, lists, links, colour
-3. Copy the output from the right panel
+```html
+<h1 style="color: #e03e2c; font-size: 36px;">Heading</h1>
+<p style="color: #e03e2c;">Same red.</p>
+```
 
-That's it.
+into:
 
-### With your own styles
+```html
+<style>
+.c-e03e2c { color: #e03e2c; }
+.fs-36 { font-size: 36px; }
+</style>
+<h1 class="c-e03e2c fs-36">Heading</h1>
+<p class="c-e03e2c">Same red.</p>
+```
 
-1. Click the **CSS** button on the editor's panel header to open the drawer
-2. Write your rules:
-   ```css
-   h1 {
-     font-family: Georgia, serif;
-     letter-spacing: -0.02em;
-   }
-   .cta {
-     padding: 12px 24px;
-     background: #2a5cad;
-     color: #fff;
-     border-radius: 8px;
-   }
-   ```
-3. To use class selectors, open **View → Source code**, add `class="..."` to your elements, click **Save**
-4. Watch the editor preview your styles live
-5. Copy the output — your `<style>` block sits at the top, your HTML beneath
+**Class naming.** Format is `{property-abbreviation}-{value-token}`, kebab-cased. Known properties have short abbreviations (`c` for `color`, `bg` for `background-color`, `fs` for `font-size`, `ta` for `text-align`, `m`/`mt`/`mr`/`mb`/`ml` for margin, etc.); unknown properties fall back to the full kebab name (`caret-color-red`). Values are normalised for class-name safety: `#` is stripped from hex colours, `px` units are stripped (the implicit default), decimals become `p` (`1.5em` → `1p5em`), `%` becomes `pc` (`100%` → `100pc`), negatives become `n` (`-10px` → `n10`), and spaces between multi-token values become hyphens (`10px 20px` → `10-20`).
 
-### Refactor inline styles into shared classes
+**Fallback for un-tokenisable values.** Values containing characters that can't safely live in a class name — commas, parentheses, quotes, slashes (typical of `url()`, `calc()`, `rgb()`, quoted font-families) — fall back to a per-property sequential counter: `bg-1`, `bg-2`, `ff-1`, etc. The CSS declaration in the `<style>` block keeps the original value verbatim.
 
-1. Compose visually using TinyMCE's colour and size pickers
-2. Toggle **Classify** on in the output panel header
-3. The inline styles get extracted into atomic classes like `.c-e03e2c` and `.fs-36`
-4. Copy the cleaner output
+**Existing classes are preserved.** If an element already has a `class` attribute, the generated classes append to it: `class="hero"` + a style of `color: red` becomes `class="hero c-red"`. No attempt is made to merge or rewrite the user's own classes.
 
-The user guide (bundled inside the `.zip`) has full worked examples for each of these.
+**No prefix.** Classes are unprefixed (`c-red`, not `mbr-c-red`) so the output drops cleanly into an existing project. If you have a class name collision, rename your own class — the generated names are atomic and predictable.
 
-<br>
+### Tidy and Classify together
 
-## 🛡 The honest bit
+Tidy and Classify are independent toggles, but they're designed to work as a pair. Tidy consolidates styles onto block elements (unwrapping spans inside headings and paragraphs, merging non-conflicting properties onto the block); Classify then turns those consolidated styles into shared utility classes. The natural workflow is **Tidy on, then turn Classify on** when you want the output as a stylesheet.
 
-This plugin is free. **Actually free.**
+Classify works on its own — it doesn't require Tidy — but with Tidy off you'll see more classes than necessary because TinyMCE's redundant span wrappers each get their own class.
 
-- ✓ GPLv2 licensed, full source in this repo
-- ✓ No premium tier, no upsells, no "upgrade to pro" nag screens
-- ✓ Zero telemetry — the plugin doesn't phone home
-- ✓ No database writes beyond the plugin's activation state
-- ✓ No CDN dependencies — every asset bundled locally
-- ✓ No API keys required, ever
-- ✓ Distributed direct from littlewebshack.com — no dependency on anyone else's policies
-- ✓ Security-first development
+The Classify toggle state is persisted to `localStorage` (key `mbrHtmlGen.classify`), per-browser, and applies to both the admin tool and the frontend shortcode independently.
 
-If you find it useful, that's the whole point.
+## Custom CSS
 
-<br>
+The editor panel includes a collapsible **CSS drawer**, opened from the **CSS** button in the editor header. Whatever you write in the drawer is applied live to the editor preview *and* included at the top of the generated output — letting you write base styles for the elements you're composing, and see them take effect immediately as you work in TinyMCE.
 
-## 🔧 Built with
+The drawer is closed by default. Its open/closed state and its contents are both persisted to `localStorage`, so reopening the tool brings you back exactly where you left off. Inside the drawer header, a line count shows the current size, and a **Clear** button wipes the drawer in one click (your editor content is untouched — Clear in the editor header and Clear in the CSS drawer are deliberately separate).
 
-| Dependency | Version | License | Notes |
-|---|---|---|---|
-| [TinyMCE](https://www.tiny.cloud/) | 8.5.0 | GPL community edition | Bundled locally — no CDN, no API key prompt |
-| [js-beautify](https://github.com/beautify-web/js-beautify) | 1.15.4 | MIT | Bundled locally |
-| [Lucide](https://lucide.dev/) | latest | ISC | Inlined as SVG |
+**How the live preview works.** The custom CSS is injected into TinyMCE's content iframe as a `<style>` element. As you type, the rules update on a 150ms debounce — write `.card { padding: 20px; border: 1px solid #ccc }`, type `<div class="card">…</div>` in the editor (via the toolbar's source view or Insert HTML), and the padding and border appear in the preview the moment you stop typing.
 
-Scoped enqueuing means none of these assets load anywhere outside the plugin's own admin page (and the shortcode container on the front end). Zero impact on Gutenberg, Classic Editor, or any other TinyMCE elsewhere on your site.
+**How the output works.** Whenever the drawer has non-empty content, the output includes a `<style>` block at the top with your CSS verbatim. When Classify is also on, the user CSS and the generated atomic rules merge into the same `<style>` block, with the user CSS first:
 
-<br>
+```html
+<style>
+.card { padding: 16px; border: 1px solid #ccc; }
+.c-e03e2c { color: #e03e2c; }
+.fs-36 { font-size: 36px; }
+</style>
+<h1 class="c-e03e2c fs-36">Heading</h1>
+<div class="card">Card content</div>
+```
 
-## 📘 Documentation
+This ordering is deliberate — it matches utility-class cascade semantics. Your CSS is the base layer; Classify's atomic classes are utilities that can override the base by source-order cascade. So a rule like `.c-red { color: blue }` in your custom CSS will get overridden by Classify's auto-generated `.c-red { color: red }` rule that comes after, exactly as you'd expect from a utility-class system.
 
-A **30-page user guide** ships inside the `.zip`. It covers:
+**Independence.** The drawer's content makes it into the output regardless of Tidy or Classify state — no master toggle. Empty drawer means no `<style>` block from your CSS. The three features (Tidy, Classify, Custom CSS) are independently toggleable and combine cleanly in any combination.
 
-- The interface at a glance
-- The Tidy / Classify / Custom CSS pipeline in detail
-- Selecting elements with CSS (tag, attribute, class, pseudo-class)
-- Two worked examples — a styled hero section and a TinyMCE refactor
-- The frontend shortcode
-- Privacy and local storage
-- Tips, tricks and idioms
-- Troubleshooting
+**No validation.** The CSS is text. You're writing it for your own output; the plugin doesn't inspect or sanitise it. `@import`, `@media`, `@keyframes`, CSS variables, vendor prefixes — anything that's valid CSS in a browser will work here.
 
-<br>
+The drawer state and content are persisted to `localStorage` (keys `mbrHtmlGen.customCss` and `mbrHtmlGen.cssDrawerOpen`), per-browser, and apply to both the admin tool and the frontend shortcode independently.
 
-## 🤝 Contributing & support
+## Filters
 
-- 🐛 **Found a bug?** [Open an issue](https://github.com/HarbourBob/MBR-HTML-Generator/issues)
-- 💡 **Want a feature?** Same place — the best additions come from real users
-- 🙏 **Want to say thanks?** A [Buy Me a Coffee](https://buymeacoffee.com/robertpalmer) is always appreciated but never expected
+### `mbr_html_generator_capability`
 
-Every message gets read. The plugin gets better because of them.
+Change the capability required to open the **admin** tool. Defaults to `manage_options`. Does not affect the frontend shortcode.
 
-<br>
+```php
+add_filter( 'mbr_html_generator_capability', function () {
+    return 'edit_posts';
+} );
+```
 
-## 📄 License
+### `mbr_html_generator_frontend_assets`
 
-GPLv2 — see [LICENSE](LICENSE) for the full text.
+Force frontend assets to enqueue on a page where the shortcode isn't detected by the standard `has_shortcode( $post->post_content, … )` scan. Useful when the shortcode is rendered by a page builder widget that bypasses post content (for example an Elementor shortcode widget or a Gutenberg block whose attributes are stored separately).
 
-<br>
+```php
+add_filter( 'mbr_html_generator_frontend_assets', function ( $needed ) {
+    if ( is_page( 'html-tools' ) ) {
+        return true;
+    }
+    return $needed;
+} );
+```
 
-## 👋 About
+## Bundled fonts
 
-Built and maintained by **Robert Palmer** — a freelance WordPress developer based in Cleethorpes, UK. Part of the free [MBR plugin suite](https://littlewebshack.com).
+The frontend shortcode uses self-hosted webfonts: Geist (sans), Fraunces (italic display), and JetBrains Mono (code). The `@font-face` declarations live in `assets/css/frontend.css` and reference woff2 files in `assets/fonts/`.
 
-- 🌐 [littlewebshack.com](https://littlewebshack.com)
-- 🏗 [madebyrobert.co.uk](https://madebyrobert.co.uk)
-- 🐙 [@HarbourBob](https://github.com/HarbourBob)
-- ☕ [buymeacoffee.com/robertpalmer](https://buymeacoffee.com/robertpalmer)
+If those font files are missing, the browser falls back through the CSS stack (system sans, Georgia, system mono) — the plugin keeps working, it just doesn't use the intended typefaces. See `assets/fonts/README.md` for the file list, source URLs, and licences.
 
-<br>
+## Privacy
 
----
+The tool runs entirely client-side. Nothing is sent to a server, no data is stored in the database, and no third-party services are contacted. The bundled TinyMCE assets and bundled fonts are served from the plugin directory.
 
-<div align="center">
+The admin Tools page loads Google Fonts (Geist, Fraunces, JetBrains Mono) for visual consistency with the existing admin look. The frontend shortcode does **not** load Google Fonts — it uses self-hosted woff2 files instead, which keeps it GDPR-friendly for public-facing pages.
 
-**Free forever. No catch.**
+Editor content and toggle preferences (theme, format, wrap) persist in the browser's `localStorage`. The Clear button wipes both the editor and the saved content, and is the single way to start fresh.
 
-</div>
+The localStorage keys used are:
+
+- `mbrHtmlGen.content` — the editor's HTML
+- `mbrHtmlGen.theme` — `light` or `dark`
+- `mbrHtmlGen.format` — `1` (pretty-printed) or `0` (raw)
+- `mbrHtmlGen.tidy` — `1` (apply HTML cleanup) or `0` (raw TinyMCE output)
+- `mbrHtmlGen.classify` — `1` (extract inline styles to CSS classes) or `0` (leave inline)
+- `mbrHtmlGen.customCss` — the contents of the Custom CSS drawer
+- `mbrHtmlGen.cssDrawerOpen` — `1` (drawer open) or `0` (drawer closed)
+- `mbrHtmlGen.wrap` — `1` (line-wrap on) or `0` (off)
+
+## Bundled third-party software
+
+- **TinyMCE 8.5.0** — GPL v2 (or later) community edition. Distributed in `vendor/tinymce/`. See `vendor/tinymce/license.md`.
+- **js-beautify 1.15.4** — MIT licence. Distributed in `vendor/js-beautify/`. See `vendor/js-beautify/LICENSE`.
+- **Lucide icons** — ISC licence. Icon paths are inlined as SVG in the plugin. See https://lucide.dev/license.
+- **Geist, Fraunces, JetBrains Mono** — SIL Open Font License 1.1. Self-hosted in `assets/fonts/` (frontend only). See `assets/fonts/README.md`.
+
+All licences are GPL-compatible and the code is bundled locally — no external CDN (frontend), no API keys, no telemetry.
+
+## Licence
+
+GPL v2 or later. See `LICENSE` (or https://www.gnu.org/licenses/gpl-2.0.html).
+
+## Author
+
+Robert Palmer · [madebyrobert.co.uk](https://madebyrobert.co.uk) · [littlewebshack.com](https://littlewebshack.com)
